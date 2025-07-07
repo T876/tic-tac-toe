@@ -25,7 +25,7 @@ export class BoardService {
   constructor() {
     const height = this.height();
     const width = this.width();
-    const board = Array.from({ length: height }, () => Array(width).fill(''));
+    const board = Array.from({ length: height }, () => Array(width).fill('#'));
     this.board.set(board);
   }
 
