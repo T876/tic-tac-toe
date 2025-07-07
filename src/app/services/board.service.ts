@@ -22,6 +22,26 @@ export class BoardService {
     return row === col || row + col === height - 1;
   }
 
+  static checkWinRow(board: string[][], row: number): boolean {
+    return board[row].every(cell => cell === 'X' || cell === 'O');
+  }
+  
+  static checkWinColumn(board: string[][], col: number): boolean {
+    return board.every(row => row[col] === 'X' || row[col] === 'O');
+  }
+
+  static checkWinDiagonal(board: string[][]): boolean {
+    const height = board.length;
+    const width = board[0].length;
+    const diagonal1 = [];
+    const diagonal2 = [];
+    for (let i = 0; i < height; i++) {
+      diagonal1.push(board[i][i]);
+      diagonal2.push(board[i][width - 1 - i]);
+    }
+    return diagonal1.every(cell => cell === 'X' || cell === 'O') || diagonal2.every(cell => cell === 'X' || cell === 'O');
+  }
+
   constructor() {
     const height = this.height();
     const width = this.width();
@@ -34,5 +54,4 @@ export class BoardService {
     board[row][col] = value;
     this.board.set(board);
   }
-
 }
