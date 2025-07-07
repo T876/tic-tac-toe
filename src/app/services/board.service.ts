@@ -1,10 +1,10 @@
-import { computed, Injectable, signal, Signal } from '@angular/core';
+import { Injectable, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
-  readonly board: Signal<string[][]> = signal([[]]);
+  board: WritableSignal<string[][]> = signal([]);
 
   readonly height: Signal<number> = signal(3);
 
@@ -22,5 +22,11 @@ export class BoardService {
     return row === col || row + col === height - 1;
   }
 
-  constructor() { }
+  constructor() {
+    const height = this.height();
+    const width = this.width();
+    const board = Array.from({ length: height }, () => Array(width).fill(''));
+    this.board.set(board);
+  }
+
 }
