@@ -29,4 +29,10 @@ export class BoardService {
     this.board.set(board);
   }
 
+  setSquare(row: number, col: number, value: string): void {
+    const board = this.board();
+    board[row][col] = value;
+    this.board.set(board);
+  }
+
 }
