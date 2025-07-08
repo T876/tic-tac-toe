@@ -1,16 +1,34 @@
 import { computed, Injectable, signal, WritableSignal, Signal } from '@angular/core';
 
+export interface Player {
+  name: string;
+  symbol: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class TurnService {
-  private turnSignal: WritableSignal<string> = signal('X');
+  playerOne: Player = {
+    name: '',
+    symbol: 'X'
+  };
+  playerTwo: Player = {
+    name: '',
+    symbol: 'O'
+  };
 
-  readonly turn: Signal<string> = computed(() => this.turnSignal());
+  private turnSignal: WritableSignal<Player> = signal(this.playerOne);
+  readonly turn: Signal<Player> = computed(() => this.turnSignal());
+
 
   constructor() { }
 
   nextTurn(): void {
-    this.turnSignal.set(this.turnSignal() === 'X' ? 'O' : 'X');
+    if (this.turnSignal() === null) {
+      this.turnSignal.set(this.playerOne);
+    } else {
+      this.turnSignal.set(this.turnSignal() === this.playerOne ? this.playerTwo : this.playerOne);
+    }
   }
 }

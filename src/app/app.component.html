@@ -1,3 +1,14 @@
+@if (turnService.playerOne.name === '' || turnService.playerTwo.name === '') {
+  <div class="player-names">
+    <h1>Enter your names</h1>
+    <form [formGroup]="playerNameForm">
+      <input type="text" placeholder="Player 1 name" formControlName="name1">
+      <input type="text" placeholder="Player 2 name" formControlName="name2">
+      <button type="submit" (click)="submitNames()">Submit</button>
+    </form>
+  </div>
+} @else {
+
 <div class="board">
   @for (row of boardService.board(); track $index; let i = $index) {
     <div class="row">
@@ -12,4 +23,9 @@
   <div class="winner">
     Winner: {{ boardService.winner() }}
   </div>
+} @else {
+  <div class="turn">
+    Turn: {{ turnService.turn().name }}
+  </div>
+}
 }

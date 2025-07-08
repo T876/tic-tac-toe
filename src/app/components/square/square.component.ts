@@ -17,8 +17,13 @@ export class SquareComponent {
   col = input<number>(0);
 
   pickSquare(): void {
-    this.boardService.setSquare(this.row(), this.col(), this.turnService.turn());
+    if (this.boardService.winner() !== '') {
+      return;
+    }
+
+    this.boardService.setSquare(this.row(), this.col(), this.turnService.turn().symbol);
     this.boardService.checkWin(this.row(), this.col(), this.turnService.turn());
+    
     this.turnService.nextTurn();
   }
 }

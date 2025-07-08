@@ -1,4 +1,5 @@
 import { Injectable, OnInit, signal, Signal, WritableSignal } from '@angular/core';
+import { Player } from './turn.service';
 
 @Injectable({
   providedIn: 'root'
@@ -76,16 +77,16 @@ export class BoardService {
     this.board.set(board);
   }
 
-  checkWin(row: number, col: number, value: string) {
+  checkWin(row: number, col: number, player: Player) {
     const board = this.board();
-    let win = BoardService.checkWinRow(board, row, value) || BoardService.checkWinColumn(board, col, value);
+    let win = BoardService.checkWinRow(board, row, player.symbol) || BoardService.checkWinColumn(board, col, player.symbol);
 
     if (BoardService.isDiagonal(row, col, this.height()) && !win) {
-      win = win || BoardService.checkWinDiagonal(board, value);
+      win = win || BoardService.checkWinDiagonal(board, player.symbol);
     }
 
     if (win) {
-      this.winner.set(value);
+      this.winner.set(player.name);
     }
   }
 }
