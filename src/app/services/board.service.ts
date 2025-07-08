@@ -26,6 +26,14 @@ export class BoardService {
     return row === col || row + col === height - 1;
   }
 
+  /**
+   * Check if a row meets the win condition
+   * 
+   * @param board - The board
+   * @param row - The row to check
+   * @param player - The player to check
+   * @returns True if the row meets the win condition, false otherwise
+   */
   static checkWinRow(board: string[][], row: number, player: string): boolean {
     const win = board[row].every(cell => cell === player);
     if (win) {
@@ -35,6 +43,14 @@ export class BoardService {
     return false;
   }
   
+  /**
+   * Check if a column meets the win condition
+   * 
+   * @param board - The board
+   * @param col - The column to check
+   * @param player - The player to check
+   * @returns True if the column meets the win condition, false otherwise
+   */
   static checkWinColumn(board: string[][], col: number, player: string): boolean {
     const win = board.every(row => row[col] === player);
     if (win) {
@@ -44,6 +60,13 @@ export class BoardService {
     return false;
   }
 
+  /**
+   * Check if a diagonal meets the win condition
+   * 
+   * @param board - The board
+   * @param player - The player to check
+   * @returns True if the diagonal meets the win condition, false otherwise
+   */
   static checkWinDiagonal(board: string[][], player: string): boolean {
     const height = board.length;
     const width = board[0].length;
@@ -68,6 +91,13 @@ export class BoardService {
     this.boardSignal.set(board);
   }
 
+  /**
+   * Set a square on the board
+   * 
+   * @param row - The row to set
+   * @param col - The column to set
+   * @param value - The value to set
+   */
   setSquare(row: number, col: number, value: string): void {
     if (this.winner() !== '') {
       return;
@@ -78,6 +108,13 @@ export class BoardService {
     this.boardSignal.set(board);
   }
 
+  /**
+   * Check if a player has won
+   * 
+   * @param row - The row to check
+   * @param col - The column to check
+   * @param player - The player to check
+   */
   checkWin(row: number, col: number, player: Player) {
     const board = this.board();
     let win = BoardService.checkWinRow(board, row, player.symbol) || BoardService.checkWinColumn(board, col, player.symbol);
