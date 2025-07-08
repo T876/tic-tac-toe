@@ -1,11 +1,12 @@
-import { Injectable, OnInit, signal, Signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { Player } from './turn.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
-  board: WritableSignal<string[][]> = signal([]);
+  private boardSignal: WritableSignal<string[][]> = signal([]);
+  readonly board: Signal<string[][]> = computed(() => this.boardSignal());
 
   readonly height: Signal<number> = signal(3);
 
@@ -64,7 +65,7 @@ export class BoardService {
     const height = this.height();
     const width = this.width();
     const board = Array.from({ length: height }, () => Array(width).fill('#'));
-    this.board.set(board);
+    this.boardSignal.set(board);
   }
 
   setSquare(row: number, col: number, value: string): void {
@@ -74,7 +75,7 @@ export class BoardService {
 
     const board = this.board();
     board[row][col] = value;
-    this.board.set(board);
+    this.boardSignal.set(board);
   }
 
   checkWin(row: number, col: number, player: Player) {
