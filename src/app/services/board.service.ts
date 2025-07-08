@@ -5,13 +5,25 @@ import { Player } from './turn.service';
   providedIn: 'root'
 })
 export class BoardService {
+  /**
+   * The board
+   */
   private boardSignal: WritableSignal<string[][]> = signal([]);
   readonly board: Signal<string[][]> = computed(() => this.boardSignal());
 
+  /**
+   * The height of the board
+   */
   readonly height: Signal<number> = signal(3);
 
+  /**
+   * The width of the board
+   */
   readonly width: Signal<number> = signal(3);
 
+  /**
+   * The winner of the game. Once this is set, the game is over and no further moves are allowed.
+   */
   readonly winner: WritableSignal<string> = signal('');
 
   /**

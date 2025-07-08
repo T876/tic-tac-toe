@@ -8,24 +8,23 @@
     </form>
   </div>
 } @else {
+  <div class="board">
+    @for (row of boardService.board(); track $index; let i = $index) {
+      <div class="row">
+        @for (cell of row; track $index; let j = $index) {
+          <app-square [value]="cell" [row]="i" [col]="j"></app-square>
+        }
+      </div>
+    }
+  </div>
 
-<div class="board">
-  @for (row of boardService.board(); track $index; let i = $index) {
-    <div class="row">
-      @for (cell of row; track $index; let j = $index) {
-        <app-square [value]="cell" [row]="i" [col]="j"></app-square>
-      }
+  @if (boardService.winner() !== '') {
+    <div class="winner">
+      Winner: {{ boardService.winner() }}
+    </div>
+  } @else {
+    <div class="turn">
+      Turn: {{ turnService.turn().name }} ({{ turnService.turn().symbol }})
     </div>
   }
-</div>
-
-@if (boardService.winner() !== '') {
-  <div class="winner">
-    Winner: {{ boardService.winner() }}
-  </div>
-} @else {
-  <div class="turn">
-    Turn: {{ turnService.turn().name }} ({{ turnService.turn().symbol }})
-  </div>
-}
 }
