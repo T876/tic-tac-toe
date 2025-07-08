@@ -122,6 +122,9 @@ export class BoardService {
     this.checkBoardFull();
   }
 
+  /**
+   * Check squares on the board have a value other than '#'
+   */
   checkBoardFull(): void {
     const board = this.boardSignal();
     const full = board.every(row => row.every(cell => cell !== '#'));

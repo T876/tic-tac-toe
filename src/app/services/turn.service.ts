@@ -17,10 +17,11 @@ export class TurnService {
     name: '',
     symbol: 'O'
   };
-
+  
   private turnSignal: WritableSignal<Player> = signal(this.playerOne);
-  readonly turn: Signal<Player> = computed(() => this.turnSignal());
 
+  readonly turn: Signal<Player> = computed(() => this.turnSignal());
+  
 
   constructor() { }
 
