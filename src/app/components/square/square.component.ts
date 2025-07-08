@@ -21,7 +21,7 @@ export class SquareComponent {
       return;
     }
 
-    if (this.boardService.winner() !== '') {
+    if (this.boardService.winner() !== '' || this.boardService.boardFull) {
       return;
     }
 

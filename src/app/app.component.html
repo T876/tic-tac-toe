@@ -19,7 +19,11 @@
       }
     </div>
 
-    @if (boardService.winner() !== '') {
+    @if (boardService.boardFull && boardService.winner() === '') {
+      <div class="winner">
+        It's a draw!
+      </div>
+    } @else if (boardService.winner() !== '') {
       <div class="winner">
         Winner: {{ boardService.winner() }}
       </div>

@@ -10,6 +10,7 @@ export class BoardService {
    */
   private boardSignal: WritableSignal<string[][]> = signal([]);
   readonly board: Signal<string[][]> = computed(() => this.boardSignal());
+  boardFull: boolean = false;
 
   /**
    * The height of the board
@@ -118,6 +119,13 @@ export class BoardService {
     const board = this.board();
     board[row][col] = value;
     this.boardSignal.set(board);
+    this.checkBoardFull();
+  }
+
+  checkBoardFull(): void {
+    const board = this.boardSignal();
+    const full = board.every(row => row.every(cell => cell !== '#'));
+    this.boardFull = full;
   }
 
   /**
