@@ -18,6 +18,7 @@ export class SquareComponent {
 
   pickSquare(): void {
     this.boardService.setSquare(this.row(), this.col(), this.turnService.turn());
+    this.boardService.checkWin(this.row(), this.col(), this.turnService.turn());
     this.turnService.nextTurn();
   }
 }

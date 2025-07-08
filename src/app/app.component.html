@@ -7,3 +7,9 @@
     </div>
   }
 </div>
+
+@if (boardService.winner() !== '') {
+  <div class="winner">
+    Winner: {{ boardService.winner() }}
+  </div>
+}

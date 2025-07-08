@@ -10,6 +10,8 @@ export class BoardService {
 
   readonly width: Signal<number> = signal(3);
 
+  readonly winner: WritableSignal<string> = signal('');
+
   /**
    * Check if a cell is on a diagonal.
    * 
@@ -22,15 +24,25 @@ export class BoardService {
     return row === col || row + col === height - 1;
   }
 
-  static checkWinRow(board: string[][], row: number): boolean {
-    return board[row].every(cell => cell === 'X' || cell === 'O');
+  static checkWinRow(board: string[][], row: number, player: string): boolean {
+    const win = board[row].every(cell => cell === player);
+    if (win) {
+      console.log('win row', row);
+      return true;
+    }
+    return false;
   }
   
-  static checkWinColumn(board: string[][], col: number): boolean {
-    return board.every(row => row[col] === 'X' || row[col] === 'O');
+  static checkWinColumn(board: string[][], col: number, player: string): boolean {
+    const win = board.every(row => row[col] === player);
+    if (win) {
+      console.log('win column', col);
+      return true;
+    }
+    return false;
   }
 
-  static checkWinDiagonal(board: string[][]): boolean {
+  static checkWinDiagonal(board: string[][], player: string): boolean {
     const height = board.length;
     const width = board[0].length;
     const diagonal1 = [];
@@ -39,7 +51,12 @@ export class BoardService {
       diagonal1.push(board[i][i]);
       diagonal2.push(board[i][width - 1 - i]);
     }
-    return diagonal1.every(cell => cell === 'X' || cell === 'O') || diagonal2.every(cell => cell === 'X' || cell === 'O');
+    const win = diagonal1.every(cell => cell === player) || diagonal2.every(cell => cell === player);
+    if (win) {
+      console.log('win diagonal');
+      return true;
+    }
+    return false;
   }
 
   constructor() {
@@ -50,8 +67,25 @@ export class BoardService {
   }
 
   setSquare(row: number, col: number, value: string): void {
+    if (this.winner() !== '') {
+      return;
+    }
+
     const board = this.board();
     board[row][col] = value;
     this.board.set(board);
+  }
+
+  checkWin(row: number, col: number, value: string) {
+    const board = this.board();
+    let win = BoardService.checkWinRow(board, row, value) || BoardService.checkWinColumn(board, col, value);
+
+    if (BoardService.isDiagonal(row, col, this.height()) && !win) {
+      win = win || BoardService.checkWinDiagonal(board, value);
+    }
+
+    if (win) {
+      this.winner.set(value);
+    }
   }
 }
