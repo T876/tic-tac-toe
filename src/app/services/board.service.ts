@@ -147,4 +147,13 @@ export class BoardService {
       this.winner.set(player.name);
     }
   }
+
+  resetBoard(): void {
+    const height = this.height();
+    const width = this.width();
+    const board = Array.from({ length: height }, () => Array(width).fill('#'));
+    this.boardSignal.set(board);
+    this.winner.set('');
+    this.boardFull = false;
+  }
 }

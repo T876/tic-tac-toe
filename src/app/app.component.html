@@ -19,18 +19,19 @@
       }
     </div>
 
-    @if (boardService.boardFull && boardService.winner() === '') {
-      <div class="winner">
-        It's a draw!
-      </div>
-    } @else if (boardService.winner() !== '') {
+    @if ( boardService.winner() !== '') {
       <div class="winner">
         Winner: {{ boardService.winner() }}
+      </div>
+    } @else if (boardService.boardFull) {
+      <div class="winner">
+        It's a draw!
       </div>
     } @else {
       <div class="turn">
         Turn: {{ turnService.turn().name }} ({{ turnService.turn().symbol }})
       </div>
     }
+    <button (click)="boardService.resetBoard()">Reset</button>
   }
 </div>
