@@ -17,6 +17,10 @@ export class SquareComponent {
   col = input<number>(0);
 
   pickSquare(): void {
+    if (this.value() !== '#') {
+      return;
+    }
+
     if (this.boardService.winner() !== '') {
       return;
     }
